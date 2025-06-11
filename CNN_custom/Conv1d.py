@@ -15,8 +15,8 @@ class Conv1d(nn.Module):
         self.b = nn.Parameter(torch.zeros(filters))
 
     def forward(self, x):
-        # x: [batch_size, seq_len, input_dims] input_dims = n_features
-        x = x.permute(0, 2, 1)  # -> [batch_size, input_dims, seq_len]
+        # x: [batch_size, seq_len, input_dims] input_dims = n_features but embedding มาแล้ว
+        x = x.permute(0, 2, 1)  # -> [batch_size, input_dims, seq_len] because F.conv1d base on [batch_size, seq_len, input_dims]
 
         if self.pad == 'same':
             pad_total = self.k_size - 1
@@ -25,7 +25,6 @@ class Conv1d(nn.Module):
             x = F.pad(x, (pad_left, pad_right))  # pad along last dim (seq_len)
 
         # Perform 1D convolution manually using F.conv1d
-        out = F.conv1d(x, self.w, self.b)
-
+        out = F.conv1d(x, self.w, self.b) #[batch_size, filters, new_seq_len]
         out = out.permute(0, 2, 1)  # -> [batch_size, new_seq_len, filters]
         return out
