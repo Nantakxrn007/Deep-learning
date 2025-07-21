@@ -1,0 +1,22 @@
+# .gitignore
+
+# Python stuff
+__pycache__/
+*.py[cod]
+*.ipynb_checkpoints
+
+# Environment
+.env
+.venv/
+env/
+venv/
+
+# Segment Anything
+weights/
+segment-anything/
+outputs/
+*.pth
+
+# OS files
+.DS_Store
+Thumbs.db
